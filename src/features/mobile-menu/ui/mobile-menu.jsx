@@ -1,9 +1,8 @@
-import { useNavigate } from 'react-router-dom'; // Убрали Link
-import { X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useUiStore } from '../../../shared/model/ui-store';
 import { useEffect } from 'react';
 
-export const MobileMenu = () => {
+export const MobileMenu = ({ onOpenBooking }) => {
   const { isMobileMenuOpen, closeMobileMenu } = useUiStore();
   const navigate = useNavigate();
 
@@ -20,35 +19,45 @@ export const MobileMenu = () => {
     closeMobileMenu();
   };
 
+  const handleBooking = () => {
+    closeMobileMenu();
+    onOpenBooking();
+  };
 
   return (
-    <div className="fixed inset-0 bg-[#333333] z-[100] flex flex-col items-center py-10 px-6 animate-fade-in">
-      {/* Логотип и крестик */}
-      <div className="relative w-full flex justify-center items-center mb-16">
-        <span className="text-3xl font-bold text-brand-accent tracking-widest">FOOD</span>
-        <button onClick={closeMobileMenu} className="absolute right-0 text-gray-400 hover:text-white transition-colors">
-          <X size={32} />
+    // Задний фон (затемнение)
+    <div 
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-fade-in"
+      onClick={closeMobileMenu} // Закрытие по клику на фон
+    >
+      {/* Само окно */}
+      <div 
+        className="bg-[#333333] text-white p-10 w-full max-w-sm relative shadow-2xl flex flex-col items-center animate-slide-up"
+        onClick={(e) => e.stopPropagation()} // Останавливаем клик внутри окна
+      >
+        <button onClick={closeMobileMenu} className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">
+          ✕
         </button>
-      </div>
 
-      {/* Меню */}
-      <nav className="flex flex-col items-center gap-8 w-full max-w-[237px]">
-        <button onClick={() => handleLink('/')} className="w-full text-center text-2xl font-medium text-white hover:text-brand-accent transition-colors">Меню</button>
-        <button onClick={() => handleLink('/delivery')} className="w-full text-center text-2xl font-medium text-white hover:text-brand-accent transition-colors">Доставка</button>
-        <button onClick={() => handleLink('/payment')} className="w-full text-center text-2xl font-medium text-white hover:text-brand-accent transition-colors">Оплата</button>
-        
-        <button 
-          onClick={() => { closeMobileMenu(); /* Логика открытия бронирования, можно прокинуть коллбэк */ }}
-          className="mt-6 w-full bg-brand-accent text-white py-4 text-sm uppercase tracking-widest hover:bg-[#9a8468] transition-colors"
-        >
-          Бронь столика
-        </button>
-      </nav>
+        <div className="text-2xl font-bold text-brand-accent tracking-widest mb-12">FOOD</div>
 
-      {/* Соцсети внизу */}
-      <div className="mt-auto flex gap-6 pb-4">
-        <a href="#" className="text-brand-accent hover:text-white transition-colors text-sm">VK</a>
-        <a href="#" className="text-brand-accent hover:text-white transition-colors text-sm">TG</a>
+        <nav className="flex flex-col items-center gap-6 w-full">
+          <button onClick={() => handleLink('/')} className="w-full text-center text-xl hover:text-brand-accent transition-colors">Меню</button>
+          <button onClick={() => handleLink('/delivery')} className="w-full text-center text-xl hover:text-brand-accent transition-colors">Доставка</button>
+          <button onClick={() => handleLink('/payment')} className="w-full text-center text-xl hover:text-brand-accent transition-colors">Оплата</button>
+          
+          <button 
+            onClick={handleBooking}
+            className="mt-6 w-full bg-brand-accent text-white py-3 text-sm uppercase tracking-widest hover:bg-[#9a8468] transition-colors"
+          >
+            Бронь столика
+          </button>
+        </nav>
+
+        <div className="mt-12 flex gap-6">
+          <a href="#" className="text-brand-accent hover:text-white transition-colors text-sm font-bold">VK</a>
+          <a href="#" className="text-brand-accent hover:text-white transition-colors text-sm font-bold">TG</a>
+        </div>
       </div>
     </div>
   );

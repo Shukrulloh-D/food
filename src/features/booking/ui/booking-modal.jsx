@@ -59,7 +59,7 @@ export const BookingModal = ({ isOpen, onClose }) => {
             <div className="flex flex-col gap-1">
               <label className="text-xs text-gray-400 uppercase tracking-wider">Имя</label>
               <input 
-                placeholder="Ваше имя" 
+                placeholder="Введите ваше имя" 
                 {...register('name')} 
                 className={`bg-transparent border-b ${errors.name ? 'border-red-500' : 'border-gray-600'} py-2 outline-none focus:border-brand-accent transition-colors`} 
               />
@@ -69,7 +69,7 @@ export const BookingModal = ({ isOpen, onClose }) => {
             <div className="flex flex-col gap-1">
               <label className="text-xs text-gray-400 uppercase tracking-wider">Телефон</label>
               <input 
-                placeholder="+7 (___) ___-__-__" 
+                placeholder="+992 (___) ___-__-__" 
                 {...register('phone')} 
                 className={`bg-transparent border-b ${errors.phone ? 'border-red-500' : 'border-gray-600'} py-2 outline-none focus:border-brand-accent transition-colors`} 
               />
